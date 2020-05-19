@@ -1,4 +1,4 @@
-package com.cryptoServ.maven.quickstart;
+package com.rabbitmq.cryptoAppServer;
 
 import static org.junit.Assert.assertTrue;
 

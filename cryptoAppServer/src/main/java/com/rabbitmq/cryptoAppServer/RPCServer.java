@@ -1,4 +1,4 @@
-package com.cryptoServ.maven.quickstart;
+package com.rabbitmq.cryptoAppServer;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.InvalidParameterException;
