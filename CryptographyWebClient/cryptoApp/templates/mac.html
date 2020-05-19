@@ -1,0 +1,15 @@
+<html>
+   <head>
+      <h1><a href="{% url 'home' %}"> Cryptography application </a></h1>
+      <h3>Message authentication code</h3>
+   </head>
+   <body>
+      <form action="/cryptoApp/mac" method="post">
+        {% csrf_token %}
+        {{ keyForm }}
+        {{ macForm }}
+        <input type="submit" value="Submit">
+    </form>
+   </body>
+   
+</html>

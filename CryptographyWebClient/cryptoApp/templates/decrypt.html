@@ -1,0 +1,14 @@
+<html>
+   <head>
+      <h1><a href="{% url 'home' %}"> Cryptography application </a></h1>
+      <h3>Messages decryption DOESN"T WORK PROPERLY</h3>
+   </head>
+   <body>
+      <form action="/cryptoApp/decrypt" method="post">
+        {% csrf_token %}
+        {{ decryptForm }}
+        <input type="submit" value="Submit">
+    </form>
+   </body>
+   
+</html>

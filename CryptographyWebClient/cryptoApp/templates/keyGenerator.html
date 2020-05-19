@@ -1,0 +1,14 @@
+<html>
+   <head>
+      <h1><a href="{% url 'home' %}"> Cryptography application </a></h1>
+      <h3>Generate key</h3>
+   </head>
+   <body>
+      <form action="/cryptoApp/key" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+   </body>
+   
+</html>
