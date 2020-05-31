@@ -10,4 +10,5 @@ urlpatterns = [
     path('hash', views.hash, name='hash'),
     path('encrypt', views.encrypt, name='encrypt'),
     path('decrypt', views.decrypt, name='decrypt'),
+    path('encryptFile', views.encryptFile, name='encryptFile'),
 ]

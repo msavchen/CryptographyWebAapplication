@@ -2,7 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django import forms
 
-from .forms import MacForm, KeyGenForm, HashForm, EncryptForm, DecryptForm
+from .forms import (
+    MacForm,
+    KeyGenForm,
+    HashForm,
+    EncryptForm,
+    DecryptForm,
+    EncryptFileForm,
+)
 from .rabbitMQ import CyperRpcClient
 
 
@@ -119,16 +126,72 @@ def decrypt(request):
             key = decryptForm.cleaned_data["key"]
 
             cyberRcp = CyperRpcClient()
-            #response = cyberRcp.call("DEKEY," + keyAlgo + "," + key)
+            # response = cyberRcp.call("DEKEY," + keyAlgo + "," + key)
 
             response = cyberRcp.call("DEC," + algo + "," + cipher)
             decryptForm = DecryptForm(
-                initial={"algorithm": algo, "plain": response, "cipher": cipher, "key": key, "keyAlgorithm": keyAlgo}
+                initial={
+                    "algorithm": algo,
+                    "plain": response,
+                    "cipher": cipher,
+                    "key": key,
+                    "keyAlgorithm": keyAlgo,
+                }
             )
     else:
-        decryptForm = DecryptForm(initial={"algorithm": "AES/ECB/PKCS5Padding", "keyAlgorithm": "AES"})
+        decryptForm = DecryptForm(
+            initial={"algorithm": "AES/ECB/PKCS5Padding", "keyAlgorithm": "AES"}
+        )
         decryptForm.fields["plain"].widget = forms.HiddenInput()
-    return render(
-        request, "decrypt.html", {"decryptForm": decryptForm}
-    )
+    return render(request, "decrypt.html", {"decryptForm": decryptForm})
 
+
+def encryptFile(request):
+    if request.method == "POST":
+        encryptFileForm = EncryptFileForm(request.POST, request.FILES)
+        keyForm = KeyGenForm(request.POST)
+        if keyForm.is_valid() and encryptFileForm.is_valid():
+            print('enter')
+            keySize = keyForm.cleaned_data["keyBitSize"]
+            keyAlgo = keyForm.cleaned_data["keyAlgorithm"]
+
+            algo = encryptFileForm.cleaned_data["algorithm"]
+            fileToEncrypt = request.FILES["fileToEncrypt"]
+            data = fileToEncrypt.read()
+
+            cyberRcp = CyperRpcClient()
+            response = cyberRcp.call("KEY," + keyAlgo + "," + keySize)
+
+            keyForm = KeyGenForm(
+                initial={
+                    "keyBitSize": keySize,
+                    "keyAlgorithm": keyAlgo,
+                    "key": response,
+                }
+            )
+
+            response = cyberRcp.call("ENC," + algo + "," + str(data))
+            encryptFileForm = EncryptFileForm(
+                initial={
+                    "algorithm": algo,
+                    "fileToEncrypt": fileToEncrypt,
+                    "cipher": response,
+                }
+            )
+            encryptFileForm.fields["cipher"].widget.attrs["cols"] = 160
+            encryptFileForm.fields["cipher"].widget.attrs["rows"] = 2 + len(response) / 160
+            if '_save' in request.POST:
+                print('save')
+                with open('encryptedFiles/file.py', 'w') as file:
+                    file.write(response)
+    else:
+        encryptFileForm = EncryptFileForm(initial={"algorithm": "AES/ECB/PKCS5Padding"})
+        encryptFileForm.fields["cipher"].widget = forms.HiddenInput()
+        keyForm = KeyGenForm(initial={"keyBitSize": 128, "keyAlgorithm": "AES"})
+        keyForm.fields["key"].widget = forms.HiddenInput()
+
+    return render(
+        request,
+        "encryptFile.html",
+        {"encryptFileForm": encryptFileForm, "keyForm": keyForm},
+    )

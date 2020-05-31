@@ -45,7 +45,6 @@ public class RPCServer {
 		}
     }
     
-    
     private static Key getKeyInstance(String algo, int keyBitSize) throws NoSuchAlgorithmException {
     	KeyGenerator keyGenerator;
 		Key key = null;
@@ -86,7 +85,7 @@ public class RPCServer {
 				Cipher cipher = Cipher.getInstance(algo);
 				cipher.init(Cipher.ENCRYPT_MODE, key);
 				byte[] plainText  = plain.getBytes("UTF-8");
-				byte[] cipherText = cipher.doFinal(plainText);	
+				byte[] cipherText = cipher.doFinal(plainText);
 		        return Base64.getEncoder().encode(cipherText);
 			} catch ( InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
 				e.printStackTrace();
@@ -102,7 +101,7 @@ public class RPCServer {
 				Cipher cipher = Cipher.getInstance(algo);
 				cipher.init(Cipher.DECRYPT_MODE, key);
 				byte[] cipherText  = ciphered.getBytes("UTF-8");
-				byte[] plainText = cipher.doFinal(cipherText);	 
+				byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipherText));
 		        return Base64.getEncoder().encode(plainText);
 			} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
 				e.printStackTrace();

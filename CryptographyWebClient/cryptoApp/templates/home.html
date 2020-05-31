@@ -1,23 +1,34 @@
 <html>
    <head>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
       <h1>Cryptography application</h1>
    </head>   
-   <body>
-      <form action='mac' method='GET'>
-         <button type='submit'> MAC </button>
-      </form>
-      <form action='encrypt' method='GET'>
-         <button type='submit'> Encrypt </button>
-      </form>
-      <form action='decrypt' method='GET'>
-         <button type='submit'> Decrypt </button>
-      </form>
-      <form action='hash' method='GET'>
-         <button type='submit'> Hash </button>
-      </form>
-      <form action='key' method='GET'>
-         <button type='submit'> Generate key </button>
-      </form>
+   <body style="margin:20;padding:0">
+      <p>
+         <form action='key' method='GET'>
+            <button type='submit'> Generate key </button> 
+            Create cryptographic key - a string of bits used by a cryptographic algorithm to transform plain text into cipher text or vice versa.
+         </form>
+         <form action='hash' method='GET'>
+            <button type='submit'> Hash </button>
+            Hash message. The hash is used to verify that data is not modified, tampered with, or corrupted.
+         </form>
+         <form action='mac' method='GET'>
+            <button type='submit'> MAC </button>
+            Message Authentication Code.
+         </form>
+         <form action='encrypt' method='GET'>
+            <button type='submit'> Encrypt </button>
+            Encrypt message with different algorithms and key sizes.
+         </form>     
+         <form action='encryptFile' method='GET'>
+            <button type='submit'> Encrypt file </button>
+            Encrypt and save file with different algorithms and key sizes.
+         </form>
+         <form action='decrypt' method='GET'>
+            <button type='submit'> Decrypt </button>
+            Decrypt message knowing algorithm, key and key characteristics.
+         </form> 
+      </p>  
    </body>
-   
 </html>

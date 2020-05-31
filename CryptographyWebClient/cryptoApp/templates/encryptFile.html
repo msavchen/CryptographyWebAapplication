@@ -2,21 +2,20 @@
    <head>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
       <h1><a href="{% url 'home' %}"> Cryptography application </a></h1>
-      <h3>Message authentication code</h3>
+      <h3>File encryption</h3>
    </head>
    <body style="margin:20;padding:0">
-      <form action="/cryptoApp/mac" method="post">
+      <form enctype="multipart/form-data" action="/cryptoApp/encryptFile" method="post">
          {% csrf_token %}
          {% for field in keyForm.visible_fields %}
             <p>{{ field.label }} {{ field }}</p>
          {% endfor %}
-         
-         {% for field in macForm.visible_fields %}
+
+         {% for field in encryptFileForm.visible_fields %}
             <p>{{ field.label }} {{ field }}</p>
          {% endfor %}
-        
-        <input type="submit" value="Submit">
+        <input type="submit" value="Show" name="_submit">
+        <input type="submit" value="Show & Save" name="_save">
     </form>
    </body>
-   
 </html>
