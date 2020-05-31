@@ -27,9 +27,5 @@ After a user provides input, a client sends a request to the server to hash a te
 After a user provides input, a client sends a request to the server to generate a key with a chosen algorithm and size. After the server answers - client shows generated key.
 * Decrypt text - doesn't work properly;  
 After a user provides input, a client sends a request to the server to create a key object with a chosen algorithm and key text. After this server sends a request to decode text using a specified algorithm and generated key. After the server answers - client shows decrypted.
-
-
-## Further improvements:
-* Improve frontend;
-* Add file encoding;
-* Fix text decoding.
+* Encrypt file;
+After a user uploads a file, a client sends a request to the server to generate a key with a chosen algorithm and size. After this server sends a request to encode a file using a specified algorithm and created key. After the server answers - client shows encrypted text and generated key. Optionally the user can save the file to the folder encryptedFiles in CryptographyWebClient folder.
